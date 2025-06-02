@@ -24,9 +24,6 @@ function App() {
       consent: false,
     },
     validate: toFormikValidate(schema),
-    onSubmit: (values) => {
-      console.log("Form data", values);
-    },
   });
 
   return (
