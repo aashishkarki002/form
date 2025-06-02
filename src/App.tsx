@@ -2,17 +2,14 @@ import { useFormik } from "formik";
 import "./App.css";
 import { z } from "zod";
 import { toFormikValidate } from "zod-formik-adapter";
-
 const schema = z.object({
   firstname: z.string().min(1, "First name is required"),
   lastname: z.string().min(1, "Last name is required"),
   email: z.string().email("Valid email is required"),
   inquiry: z.enum(["general", "support"]),
   message: z.string().min(1, "Message is required"),
-  consent: z.literal(true, {
-    errorMap: () => ({
-      message: "To submit  this form , please consent to being contacted",
-    }),
+  consent: z.boolean().refine((val) => val === true, {
+    message: "To submit this form, please consent to being contacted",
   }),
 });
 
