@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import "./App.css";
 import { z } from "zod";
 import { toFormikValidate } from "zod-formik-adapter";
+
 const schema = z.object({
   firstname: z.string().min(1, "First name is required"),
   lastname: z.string().min(1, "Last name is required"),
@@ -13,8 +14,10 @@ const schema = z.object({
   }),
 });
 
+type FormValues = z.infer<typeof schema>;
+
 function App() {
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       firstname: "",
       lastname: "",
@@ -24,15 +27,18 @@ function App() {
       consent: false,
     },
     validate: toFormikValidate(schema),
+    onSubmit: async (values) => {
+      console.log("Submitted Values:", values);
+    },
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-200 font-karl ">
+    <div className="min-h-screen flex items-center justify-center bg-primary-200 font-karl">
       <div className="bg-white p-6 rounded-2xl shadow-md w-[600px]">
         <h1 className="font-bold text-xl mb-4">Contact Us</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className="space-y-4">
-            <div className="flex  flex-col gap-4 sm:flex-row">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <div className="flex-1">
                 <label htmlFor="firstname" className="block text-base">
                   First name *
@@ -61,7 +67,7 @@ function App() {
                   id="lastname"
                   type="text"
                   name="lastname"
-                  className="border border-gray-400 rounded-sm h-8 w-full px-2  focus:border-green-800 focus:outline-none"
+                  className="border border-gray-400 rounded-sm h-8 w-full px-2 focus:border-green-800 focus:outline-none"
                   value={formik.values.lastname}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -82,7 +88,7 @@ function App() {
                 id="email"
                 type="email"
                 name="email"
-                className="border border-gray-400 rounded-sm h-8 w-full px-2  focus:border-green-800 focus:outline-none"
+                className="border border-gray-400 rounded-sm h-8 w-full px-2 focus:border-green-800 focus:outline-none"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -130,8 +136,8 @@ function App() {
               <textarea
                 id="message"
                 name="message"
-                rows="4"
-                className="border border-gray-400 w-full rounded-sm px-2 py-1  focus:border-green-800 focus:outline-none "
+                rows={4}
+                className="border border-gray-400 w-full rounded-sm px-2 py-1 focus:border-green-800 focus:outline-none"
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -167,7 +173,7 @@ function App() {
               <button
                 type="submit"
                 disabled={!(formik.dirty && formik.isValid)}
-                className="w-full py-2 rounded-md button text-white disabled:cursor-not-allowed"
+                className="w-full py-2 rounded-md button text-white disabled:cursor-not-allowed bg-green-800"
               >
                 Submit
               </button>
