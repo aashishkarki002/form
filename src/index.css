@@ -1,0 +1,18 @@
+@import "tailwindcss";
+body {
+  background-color: hsl(148, 38%, 91%);
+  font-family: karl;
+  color: hsl(187, 24%, 22%);
+  font-family: "karla", sans-serif;
+}
+.button {
+  background-color: hsl(169, 82%, 27%);
+}
+.button:disabled {
+  background-color: #d1d5db; /* Tailwind's gray-300 */
+  cursor: not-allowed;
+}
+@font-face {
+  font-family: "karla";
+  src: url("/src/assets/fonts/Karla-Italic-VariableFont_wght.ttf") format("ttf");
+}
